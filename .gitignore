@@ -1,0 +1,10 @@
+# GitHub
+.github
+
+# Visual Studio
+.vs
+
+# building
+bin/
+obj/
+

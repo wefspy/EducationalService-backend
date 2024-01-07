@@ -1,0 +1,29 @@
+version: '3.4'
+
+services:
+  educationalwebservice.api:
+    container_name: EducationalWebService.API
+    image: educationalwebservice.api
+    build:
+      context: .
+      dockerfile: EducationalWebService.API/Dockerfile
+    ports:
+      - "5000:8080"
+    environment:
+      - ASPNETCORE_ENVIRONMENT=Development
+
+  educationalwebservice.db:
+    container_name: EducationalWebService.db
+    image: postgres:latest
+    environment:
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: cLQ8Oc7pJNkCdmI3SFSE
+      POSTGRES_DB: db
+    ports:
+      - "5432:5432"
+    volumes:
+      - postgres-data:/var/lib/postgresql/data
+
+volumes: 
+  postgres-data:
+      
