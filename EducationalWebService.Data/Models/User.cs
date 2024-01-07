@@ -8,7 +8,7 @@ namespace EducationalWebService.Data.Models;
 [Table("Users")]
 public class User : IdentityUser<Guid>
 {
-    [Column("user_id")]
+    [Column("id_user")]
     [Key]
     [NotNull]
     public Guid Id { get; set; }

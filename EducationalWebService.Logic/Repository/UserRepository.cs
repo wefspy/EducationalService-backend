@@ -4,7 +4,6 @@ using EducationalWebService.Logic.DTO.User;
 using EducationalWebService.Logic.Repository.IRepository;
 using EducationalWebService.Logic.Generator.IGenerator;
 using EducationalWebService.Data.Context;
-using System.Text;
 
 namespace EducationalWebService.Logic.Repository;
 
@@ -13,12 +12,15 @@ public class UserRepository : IUserRepository
     private readonly EducationalWebServiceContext _db;
     private readonly UserManager<User> _userManager;
     private readonly IJwtTokenGenerator _jwtTokenGenerator;
+    
 
-    public UserRepository(EducationalWebServiceContext db, UserManager<User> userManager, IJwtTokenGenerator jwtTokenGenerator)
+    public UserRepository(EducationalWebServiceContext db, UserManager<User> userManager, IJwtTokenGenerator jwtTokenGenerator
+        )
     {
         _db = db;
         _userManager = userManager;
         _jwtTokenGenerator = jwtTokenGenerator;
+
     }
 
     public async Task<UserRegistrationResponse?> RegisterAsync(UserRegistrationRequest request)
@@ -49,8 +51,14 @@ public class UserRepository : IUserRepository
         return response;
     }
 
-    public Task<UserSignInResponse?> SignInAsync(UserSignInRequest request)
+    public async Task<UserSignInResponse?> SignInAsync(UserSignInRequest request)
     {
         throw new NotImplementedException();
-    }  
+
+        //var user = _db.Users.FirstOrDefault(u => u.Name == request.Name);
+
+        //if (user == null) // User does not exist
+        //    return null;
+
+    }
 }

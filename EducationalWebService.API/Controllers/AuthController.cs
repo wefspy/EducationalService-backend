@@ -1,6 +1,9 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using EducationalWebService.Logic.Repository.IRepository;
 using EducationalWebService.Logic.DTO.User;
+using Microsoft.AspNetCore.Identity;
+using EducationalWebService.Data.Models;
+
 
 namespace EducationalWebService.API.Controllers;
 
@@ -9,7 +12,6 @@ namespace EducationalWebService.API.Controllers;
 public class AuthController : ControllerBase
 {
     private readonly IUserRepository _userRepository;
-
     public AuthController(IUserRepository userService)
     {
         _userRepository = userService;
@@ -25,4 +27,15 @@ public class AuthController : ControllerBase
 
         return Ok(response);
     }
+
+    //[httppost("signin")]
+    //public async task<iactionresult> signin(usersigninrequest request)
+    //{
+    //    var response = await _userrepository.signinasync(request);
+
+    //    if (response == null)
+    //        return badrequest();
+
+    //    return ok(response);
+    //}
 }
