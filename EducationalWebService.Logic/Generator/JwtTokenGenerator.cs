@@ -27,14 +27,9 @@ public class JwtTokenGenerator : IJwtTokenGenerator
         {
             Subject = new ClaimsIdentity(new Claim[]
             {
-                new Claim(ClaimTypes.HomePhone, user.Name),
+                new Claim(ClaimTypes.Sid, user.Id.ToString("N")),
+                new Claim(ClaimTypes.Name, user.Name),
                 new Claim(ClaimTypes.Email, user.Email),
-                new Claim(ClaimTypes.Name, user.Email),
-                new Claim(ClaimTypes.Anonymous, user.Name),
-                new Claim(ClaimTypes.OtherPhone, user.Name),
-                new Claim(ClaimTypes.Country, user.Email),
-                new Claim(ClaimTypes.Gender, user.Email),
-                new Claim(ClaimTypes.Webpage, user.Name)
             }),
             Issuer = _jwtOptions.Issuer,
             Audience = _jwtOptions.Audience,
