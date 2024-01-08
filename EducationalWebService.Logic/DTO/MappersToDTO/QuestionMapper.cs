@@ -9,12 +9,12 @@ public static class QuestionMapper
     {
         return new QuestionDTO
         {
-            QuestionID = question.QuestionID,
-            Text = question.Text,
+            QuestionID = question.QuestionID!,
+            Text = question.Text!,
             //Image = question.imagePath,   // TODO
             //Music = question.musicPath,
-            Reward = question.Reward,
-            Answer = question.Answer,
+            Reward = question.Reward!,
+            Answer = question.Answer!,
         }; 
     }
 }

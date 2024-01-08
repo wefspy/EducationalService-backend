@@ -13,6 +13,7 @@ public static class LogicImplementation
     public static IServiceCollection AddRepositories(this IServiceCollection services)
     {
         services.AddTransient<IUserRepository, UserRepository>();
+        services.AddTransient<IGameRepository, GameRepository>();
         services.AddTransient<IQuestionRepository, QuestionRepository>();
 
         return services;

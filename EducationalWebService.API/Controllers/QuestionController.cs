@@ -18,7 +18,7 @@ namespace EducationalWebService.API.Controllers
         [HttpGet("{id:Guid}")]
         public async Task<ActionResult<QuestionDTO>> GetById(Guid id)
         {
-            var result = await _questionRepository.GetAsync(Guid.NewGuid());
+            var result = await _questionRepository.GetAsync(id);
 
             if (result == null)
                 return NotFound();

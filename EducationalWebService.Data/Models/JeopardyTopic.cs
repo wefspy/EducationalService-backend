@@ -12,7 +12,7 @@ public class JeopardyTopic
     public Guid Id { get; set; }
 
     [Column("id_jeopardy")]
-    [ForeignKey("Jeopardy")]
+    [ForeignKey("JeopardyGamePack")]
     [NotNull]
     public Guid JeopardyID { get; set; }
 
@@ -24,5 +24,5 @@ public class JeopardyTopic
     [NotNull]
     public int Round { get; set; }
 
-    public Jeopardy Jeopardy { get; set; }
+    public JeopardyGame JeopardyGamePack { get; set; }
 }

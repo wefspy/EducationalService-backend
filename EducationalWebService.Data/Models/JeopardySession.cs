@@ -20,5 +20,5 @@ public class JeopardySession
     [NotNull]
     public DateTime Time { get; set; }
 
-    public Jeopardy Jeopardy { get; set; }
+    public JeopardyGame Jeopardy { get; set; }
 }
