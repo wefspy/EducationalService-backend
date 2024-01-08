@@ -5,11 +5,13 @@ namespace EducationalWebService.Logic.Repository.IRepository;
 
 public interface IQuestionRepository
 {
-    public Task<QuestionDTO?> GetAsync(Guid questionID);
+    public Task<IEnumerable<QuestionDTO>> GetAllByTopicIDAsync(Guid topicID);
 
-    public Task<bool> CreateAsync(Guid topicID);
+    public Task<QuestionDTO?> GetbyIDAsync(Guid questionID);
 
-    public Task<bool> UpdateAsync(Guid questionID);
+    public Task<bool> CreateAsync(Guid topicID, QuestionRequest request);
+
+    public Task<bool> UpdateAsync(Guid questionID, QuestionRequest request);
 
     public Task<bool> DeleteAsync(Guid questionID);
 }

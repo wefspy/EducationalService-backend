@@ -48,7 +48,7 @@ public class GameController : ControllerBase
     }
 
     [HttpPut("{gameID:Guid}")]
-    public async Task<ActionResult> Update([FromRoute] Guid gameID, string gameName)
+    public async Task<ActionResult> Update([FromRoute]Guid gameID, string gameName)
     {
         var isOk = await _gameRepository.UpdateAsync(gameID, gameName);
 

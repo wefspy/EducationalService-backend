@@ -1,4 +1,5 @@
 ﻿using EducationalWebService.Data.Context;
+using EducationalWebService.Data.Models;
 using EducationalWebService.Logic.DTO.MappersToDTO;
 using EducationalWebService.Logic.DTO.Question;
 using EducationalWebService.Logic.Repository.IRepository;
@@ -15,7 +16,17 @@ public class QuestionRepository : IQuestionRepository
         _db = db;
     }
 
-    public async Task<QuestionDTO?> GetAsync(Guid questionID)
+    public async Task<IEnumerable<QuestionDTO>> GetAllByTopicIDAsync(Guid topicID)
+    {
+        var result = await _db.JeopardyQuestion
+            .Where(question => question.TopicID == topicID)
+            .Select(question => QuestionMapper.ToDTO(question))
+            .ToListAsync();
+
+        return result;
+    }
+
+    public async Task<QuestionDTO?> GetbyIDAsync(Guid questionID)
     {
         var result = await _db.JeopardyQuestion.FindAsync(questionID);
 
@@ -24,18 +35,51 @@ public class QuestionRepository : IQuestionRepository
         return QuestionMapper.ToDTO(result);
     }
 
-    public Task<bool> CreateAsync(Guid topicID)
+
+    public async Task<bool> CreateAsync(Guid topicID, QuestionRequest request)
     {
-        throw new NotImplementedException();
+        await _db.JeopardyQuestion.AddAsync(new JeopardyQuestion
+        {
+            TopicID = topicID,
+            Text = request.Text,
+            imagePath = request.Image,
+            musicPath = request.Music,
+            Reward = request.Reward,
+            Answer = request.Answer,
+        });
+
+        await _db.SaveChangesAsync();
+
+        return true;
     }
 
-    public Task<bool> DeleteAsync(Guid questionID)
+    public async Task<bool> UpdateAsync(Guid questionID, QuestionRequest request)
     {
-        throw new NotImplementedException();
+        var question = await _db.JeopardyQuestion.FindAsync(questionID);
+
+        if (question == null) return false;
+
+        question.Text = request.Text;
+        question.imagePath = request.Image;
+        question.musicPath = request.Music;
+        question.Reward = request.Reward;
+        question.Answer = request.Answer;
+
+        await _db.SaveChangesAsync();
+
+        return true;
     }
 
-    public Task<bool> UpdateAsync(Guid questionID)
+    public async Task<bool> DeleteAsync(Guid questionID)
     {
-        throw new NotImplementedException();
-    }
+        var question = await _db.JeopardyQuestion.FindAsync(questionID);
+
+        if (question == null) return false;
+
+        _db.JeopardyQuestion.Remove(question);
+
+        await _db.SaveChangesAsync();
+
+        return true;
+    }   
 }
