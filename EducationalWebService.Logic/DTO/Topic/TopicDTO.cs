@@ -2,14 +2,8 @@
 
 namespace EducationalWebService.Logic.DTO.Topic;
 
-public class TopicDTO
+public class TopicDTO : TopicRequest
 {
     [Required]
     public Guid TopicID { get; set; }
-
-    [Required]
-    public string Title { get; set; } = null!;
-
-    [Required]
-    public int Round { get; set; }
 }

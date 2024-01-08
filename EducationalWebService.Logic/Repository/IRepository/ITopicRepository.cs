@@ -8,9 +8,9 @@ public interface ITopicRepository
 
     public Task<TopicDTO?> GetByIDAsync(Guid topicID);
 
-    public Task<bool> CreateAsync(Guid gameID, TopicCreateRequest request);
+    public Task<bool> CreateAsync(Guid gameID, TopicRequest request);
 
-    public Task<bool> UpdateAsync(Guid topicID, TopicUpdateRequest request);
+    public Task<bool> UpdateAsync(Guid topicID, TopicRequest request);
 
     public Task<bool> DeleteAsync(Guid topicID);
 }

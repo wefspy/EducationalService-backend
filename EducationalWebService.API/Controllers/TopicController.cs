@@ -42,7 +42,7 @@ public class TopicController : ControllerBase
     }
 
     [HttpPost]
-    public async Task<ActionResult> Create(TopicCreateRequest request, [FromRoute]Guid gameID)
+    public async Task<ActionResult> Create(TopicRequest request, [FromRoute]Guid gameID)
     {
         var result = await _topicRepository.CreateAsync(gameID, request);
 
@@ -50,7 +50,7 @@ public class TopicController : ControllerBase
     }
 
     [HttpPut("{topicID:Guid}")]
-    public async Task<ActionResult> Update(TopicUpdateRequest request, [FromRoute]Guid topicID)
+    public async Task<ActionResult> Update(TopicRequest request, [FromRoute]Guid topicID)
     {
         var isOk = await _topicRepository.UpdateAsync(topicID, request);
 

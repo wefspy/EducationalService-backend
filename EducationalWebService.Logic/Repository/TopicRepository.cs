@@ -37,7 +37,7 @@ public class TopicRepository : ITopicRepository
         return TopicMapper.ToDTO(result);
     }
 
-    public async Task<bool> CreateAsync(Guid _GameID, TopicCreateRequest request)
+    public async Task<bool> CreateAsync(Guid _GameID, TopicRequest request)
     {
         await _db.JeopardyTopic.AddAsync(new JeopardyTopic
         {          
@@ -51,7 +51,7 @@ public class TopicRepository : ITopicRepository
         return true;
     }
 
-    public async Task<bool> UpdateAsync(Guid topicID, TopicUpdateRequest request)
+    public async Task<bool> UpdateAsync(Guid topicID, TopicRequest request)
     {
         var topic = await _db.JeopardyTopic.FindAsync(topicID);
 
