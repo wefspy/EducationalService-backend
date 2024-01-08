@@ -14,6 +14,7 @@ public static class LogicImplementation
     {
         services.AddTransient<IUserRepository, UserRepository>();
         services.AddTransient<IGameRepository, GameRepository>();
+        services.AddTransient<ITopicRepository, TopicRepository>();
         services.AddTransient<IQuestionRepository, QuestionRepository>();
 
         return services;
