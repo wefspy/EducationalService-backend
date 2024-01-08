@@ -17,14 +17,14 @@ public class GameRepository : IGameRepository
         _db = db;
     }
 
-    public async Task<IEnumerable<GameDTO>?> GetAllByIDAsync(Guid userID)
+    public async Task<IEnumerable<GameDTO>?> GetAllByUserIDAsync(Guid userID)
     {
         var result = await _db.JeopardyGame
             .Where(game => game.UserID == userID)
             .Select(game => GameMapper.ToDTO(game))
             .ToListAsync();
 
-        if (result.Count == 0) return null;
+        //if (result.Count == 0) return null;
 
         return result;
     }
@@ -38,12 +38,12 @@ public class GameRepository : IGameRepository
         return GameMapper.ToDTO(result);
     }
 
-    public async Task<bool> CreateAsync(GameCreateRequest request)
+    public async Task<bool> CreateAsync(Guid userID, string gameName)
     {
         await _db.JeopardyGame.AddAsync(new JeopardyGame
         {
-            UserID = request.UserID,
-            Name = request.GameName,
+            UserID = userID,
+            Name = gameName,
         });
 
         await _db.SaveChangesAsync();
@@ -51,13 +51,13 @@ public class GameRepository : IGameRepository
         return true;
     }
 
-    public async Task<bool> RenameAsync(GameRenameRequest request)
+    public async Task<bool> UpdateAsync(Guid gameID, string gameName)
     {
-        var game = await _db.JeopardyGame.FindAsync(request.GameID);
+        var game = await _db.JeopardyGame.FindAsync(gameID);
 
         if (game == null) return false;
 
-        game.Name = request.GameName;
+        game.Name = gameName;
 
         await _db.SaveChangesAsync();
 

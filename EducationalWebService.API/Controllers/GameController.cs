@@ -7,7 +7,7 @@ using Microsoft.AspNetCore.Mvc;
 namespace EducationalWebService.API.Controllers;
 
 [Authorize]
-[Route("api/jeopardy")]
+[Route("api/{userID:Guid}/jeopardy")]
 [ApiController]
 public class GameController : ControllerBase
 {
@@ -19,12 +19,12 @@ public class GameController : ControllerBase
     }
 
     [HttpGet]
-    public async Task<ActionResult<IEnumerable<GameDTO>>> GetAllByID(Guid userID)
+    public async Task<ActionResult<IEnumerable<GameDTO>>> GetAllByUserID([FromRoute]Guid userID)
     {
-        var result = await _gameRepository.GetAllByIDAsync(userID);
+        var result = await _gameRepository.GetAllByUserIDAsync(userID);
 
-        if (result == null)
-            return NotFound();
+        //if (result == null)
+        //    return NotFound();
 
         return Ok(result);
     }
@@ -41,17 +41,17 @@ public class GameController : ControllerBase
     }
 
     [HttpPost]
-    public async Task<ActionResult> Create(GameCreateRequest request)
+    public async Task<ActionResult> Create([FromRoute]Guid userID, string gameName)
     {
-        await _gameRepository.CreateAsync(request);
+        await _gameRepository.CreateAsync(userID, gameName);
 
         return Ok();
     }
 
-    [HttpPut]
-    public async Task<ActionResult> Rename(GameRenameRequest request)
+    [HttpPut("{gameID:Guid}")]
+    public async Task<ActionResult> Update([FromRoute] Guid gameID, string gameName)
     {
-        var isOk = await _gameRepository.RenameAsync(request);
+        var isOk = await _gameRepository.UpdateAsync(gameID, gameName);
 
         if (isOk)
             return Ok();
