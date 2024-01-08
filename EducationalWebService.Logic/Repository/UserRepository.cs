@@ -11,14 +11,16 @@ public class UserRepository : IUserRepository
 {
     private readonly EducationalWebServiceContext _db;
     private readonly UserManager<User> _userManager;
+    RoleManager<Role> _roleManager;
     private readonly IJwtTokenGenerator _jwtTokenGenerator;
     
 
-    public UserRepository(EducationalWebServiceContext db, UserManager<User> userManager, IJwtTokenGenerator jwtTokenGenerator
-        )
+    public UserRepository(EducationalWebServiceContext db, UserManager<User> userManager, RoleManager<Role> roleManager,
+        IJwtTokenGenerator jwtTokenGenerator)
     {
         _db = db;
         _userManager = userManager;
+        _roleManager = roleManager;
         _jwtTokenGenerator = jwtTokenGenerator;
 
     }
@@ -27,7 +29,7 @@ public class UserRepository : IUserRepository
     {
         // TODO: Return an error message
 
-        var user = _db.Users.FirstOrDefault(u => u.Name == request.Name); // Not optimized
+        var user = _db.User.FirstOrDefault(u => u.Name == request.Name); // Not optimized
 
         if (user != null) // Name already exists
             return null;
@@ -43,6 +45,18 @@ public class UserRepository : IUserRepository
 
         if (!result.Succeeded)
             return null;
+
+        // Attach roles to created users
+        //
+        //try
+        //{
+        //    await _userManager.AddToRoleAsync(user, Role.User);
+        //}
+        //catch (Exception ex)
+        //{
+        //    await _roleManager.CreateAsync();
+        //}
+
 
         var token = await _jwtTokenGenerator.GenerateUserJwtTokenAsync(user);
 

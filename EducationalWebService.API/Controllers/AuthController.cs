@@ -1,8 +1,7 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using EducationalWebService.Logic.Repository.IRepository;
 using EducationalWebService.Logic.DTO.User;
-using Microsoft.AspNetCore.Identity;
-using EducationalWebService.Data.Models;
+using Microsoft.AspNetCore.Authorization;
 
 
 namespace EducationalWebService.API.Controllers;
@@ -12,6 +11,7 @@ namespace EducationalWebService.API.Controllers;
 public class AuthController : ControllerBase
 {
     private readonly IUserRepository _userRepository;
+
     public AuthController(IUserRepository userService)
     {
         _userRepository = userService;

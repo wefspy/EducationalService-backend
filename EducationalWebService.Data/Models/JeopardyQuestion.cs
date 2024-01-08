@@ -4,13 +4,12 @@ using System.Diagnostics.CodeAnalysis;
 
 namespace EducationalWebService.Data.Models;
 
-[Table("Jeopardy_Question")]
 public class JeopardyQuestion
 {
     [Column("id_question")]
     [Key]
     [NotNull]
-    public Guid Id { get; set; }
+    public Guid QuestionID { get; set; }
 
     [Column("id_topic")]
     [ForeignKey("JeopardyTopic")]

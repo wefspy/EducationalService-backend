@@ -4,7 +4,6 @@ using System.Diagnostics.CodeAnalysis;
 
 namespace EducationalWebService.Data.Models;
 
-[Table("Jeopardy_Session")]
 public class JeopardySession
 {
     [Column("id_session")]

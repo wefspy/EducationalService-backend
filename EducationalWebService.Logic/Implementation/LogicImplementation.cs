@@ -5,7 +5,6 @@ using EducationalWebService.Logic.Generator;
 using EducationalWebService.Logic.Repository.IRepository;
 using EducationalWebService.Logic.Repository;
 using EducationalWebService.Data.Models;
-using EducationalWebService.Data.Context;
 
 namespace EducationalWebService.Logic.Implementation;
 
@@ -14,6 +13,7 @@ public static class LogicImplementation
     public static IServiceCollection AddRepositories(this IServiceCollection services)
     {
         services.AddTransient<IUserRepository, UserRepository>();
+        services.AddTransient<IQuestionRepository, QuestionRepository>();
 
         return services;
     }
