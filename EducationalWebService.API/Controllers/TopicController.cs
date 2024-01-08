@@ -2,10 +2,12 @@
 using EducationalWebService.Logic.DTO.Topic;
 using EducationalWebService.Logic.Repository;
 using EducationalWebService.Logic.Repository.IRepository;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 namespace EducationalWebService.API.Controllers;
 
+[Authorize]
 [Route("api/{userID:Guid}/jeopardy/{gameID:Guid}/topic")]
 [ApiController]
 public class TopicController : ControllerBase
@@ -50,22 +52,22 @@ public class TopicController : ControllerBase
     [HttpPut("{topicID:Guid}")]
     public async Task<ActionResult> Update(TopicUpdateRequest request, [FromRoute]Guid topicID)
     {
-        var result = await _topicRepository.UpdateAsync(topicID, request);
+        var isOk = await _topicRepository.UpdateAsync(topicID, request);
 
-        if (result == false)
-            return NotFound();
+        if (isOk)
+            return Ok();
 
-        return Ok();
+        return NotFound();
     }
 
     [HttpDelete("{topicID:Guid}")]
     public async Task<ActionResult> Delete(Guid topicID)
     {
-        var result = await _topicRepository.DeleteAsync(topicID);
+        var isOk = await _topicRepository.DeleteAsync(topicID);
 
-        if (result == false)
-            return NotFound();
+        if (isOk)
+            return Ok();
 
-        return Ok();
+        return NotFound();
     }
 }
