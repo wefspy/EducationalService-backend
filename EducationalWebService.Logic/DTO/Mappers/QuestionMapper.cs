@@ -22,6 +22,7 @@ public static class QuestionMapper
     {
         return new JeopardyQuestion
         {
+            QuestionID = Guid.NewGuid(),
             TopicID = topicID,
             Text = request.Text,
             //imagePath = request.Image, // TODO

@@ -19,6 +19,7 @@ public static class GameMapper
     {
         return new JeopardyGame()
         {
+            GameID = Guid.NewGuid(),
             UserID = userID,
             Name = request.Name,
         };

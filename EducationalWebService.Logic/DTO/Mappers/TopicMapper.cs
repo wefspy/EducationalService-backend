@@ -19,6 +19,7 @@ public static class TopicMapper
     {
         return new JeopardyTopic
         {
+            TopicID = Guid.NewGuid(),
             GameID = gameID,
             Title = request.Title,
             Round = request.Round,
