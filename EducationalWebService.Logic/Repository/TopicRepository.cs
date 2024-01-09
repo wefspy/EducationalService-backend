@@ -1,6 +1,6 @@
 ﻿using EducationalWebService.Data.Context;
 using EducationalWebService.Data.Models;
-using EducationalWebService.Logic.DTO.MappersToDTO;
+using EducationalWebService.Logic.DTO.Mappers;
 using EducationalWebService.Logic.DTO.Topic;
 using EducationalWebService.Logic.Repository.IRepository;
 using Microsoft.EntityFrameworkCore;
@@ -16,7 +16,7 @@ public class TopicRepository : ITopicRepository
         _db = db;
     }
 
-    public async Task<IEnumerable<TopicDTO>?> GetAllByGameIDAsync(Guid gameID)
+    public async Task<IEnumerable<TopicDTO>> GetAllByGameIDAsync(Guid gameID)
     {
         var result = await _db.JeopardyTopic
             .Where(topic => topic.GameID == gameID)
@@ -37,18 +37,15 @@ public class TopicRepository : ITopicRepository
         return TopicMapper.ToDTO(result);
     }
 
-    public async Task<bool> CreateAsync(Guid _GameID, TopicRequest request)
+    public async Task<TopicDTO> CreateAsync(Guid gameID, TopicRequest request)
     {
-        await _db.JeopardyTopic.AddAsync(new JeopardyTopic
-        {          
-            GameID = _GameID,
-            Title = request.Title,
-            Round = request.Round,
-        });
+        var modelObject = TopicMapper.ToModelObject(gameID, request);
+
+        await _db.JeopardyTopic.AddAsync(modelObject);
 
         await _db.SaveChangesAsync();
 
-        return true;
+        return TopicMapper.ToDTO(modelObject);
     }
 
     public async Task<bool> UpdateAsync(Guid topicID, TopicRequest request)

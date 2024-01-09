@@ -37,14 +37,11 @@ public class QuestionController : ControllerBase
     }
 
     [HttpPost]
-    public async Task<ActionResult> Create([FromRoute] Guid topicID, QuestionRequest request)
+    public async Task<ActionResult<QuestionDTO>> Create([FromRoute] Guid topicID, QuestionRequest request)
     {
-        var isOk = await _questionRepository.CreateAsync(topicID, request);
+        var result = await _questionRepository.CreateAsync(topicID, request);
 
-        if (isOk)
-            return Ok();
-
-        return BadRequest();
+        return Ok(result);
     }
 
     [HttpPut("{questionID:Guid}")]

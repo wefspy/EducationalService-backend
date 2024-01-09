@@ -42,11 +42,11 @@ public class TopicController : ControllerBase
     }
 
     [HttpPost]
-    public async Task<ActionResult> Create(TopicRequest request, [FromRoute]Guid gameID)
+    public async Task<ActionResult<TopicDTO>> Create(TopicRequest request, [FromRoute]Guid gameID)
     {
         var result = await _topicRepository.CreateAsync(gameID, request);
 
-        return Ok();
+        return Ok(result);
     }
 
     [HttpPut("{topicID:Guid}")]

@@ -9,7 +9,7 @@ public interface IQuestionRepository
 
     public Task<QuestionDTO?> GetbyIDAsync(Guid questionID);
 
-    public Task<bool> CreateAsync(Guid topicID, QuestionRequest request);
+    public Task<QuestionDTO> CreateAsync(Guid topicID, QuestionRequest request);
 
     public Task<bool> UpdateAsync(Guid questionID, QuestionRequest request);
 

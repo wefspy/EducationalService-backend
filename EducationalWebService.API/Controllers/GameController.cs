@@ -41,11 +41,11 @@ public class GameController : ControllerBase
     }
 
     [HttpPost]
-    public async Task<ActionResult> Create([FromRoute] Guid userID, GameRequest request)
+    public async Task<ActionResult<GameDTO>> Create([FromRoute] Guid userID, GameRequest request)
     {
-        await _gameRepository.CreateAsync(userID, request);
+        var result = await _gameRepository.CreateAsync(userID, request);
 
-        return Ok();
+        return Ok(result);
     }
 
     [HttpPut("{gameID:Guid}")]

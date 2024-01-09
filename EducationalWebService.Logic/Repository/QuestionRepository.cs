@@ -1,6 +1,6 @@
 ﻿using EducationalWebService.Data.Context;
 using EducationalWebService.Data.Models;
-using EducationalWebService.Logic.DTO.MappersToDTO;
+using EducationalWebService.Logic.DTO.Mappers;
 using EducationalWebService.Logic.DTO.Question;
 using EducationalWebService.Logic.Repository.IRepository;
 using Microsoft.EntityFrameworkCore;
@@ -36,21 +36,15 @@ public class QuestionRepository : IQuestionRepository
     }
 
 
-    public async Task<bool> CreateAsync(Guid topicID, QuestionRequest request)
+    public async Task<QuestionDTO> CreateAsync(Guid topicID, QuestionRequest request)
     {
-        await _db.JeopardyQuestion.AddAsync(new JeopardyQuestion
-        {
-            TopicID = topicID,
-            Text = request.Text,
-            imagePath = request.Image,
-            musicPath = request.Music,
-            Reward = request.Reward,
-            Answer = request.Answer,
-        });
+        var modelObject = QuestionMapper.ToModelObject(topicID, request);
+
+        await _db.JeopardyQuestion.AddAsync(modelObject);
 
         await _db.SaveChangesAsync();
 
-        return true;
+        return QuestionMapper.ToDTO(modelObject);
     }
 
     public async Task<bool> UpdateAsync(Guid questionID, QuestionRequest request)

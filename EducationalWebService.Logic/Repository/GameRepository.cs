@@ -2,7 +2,7 @@
 using EducationalWebService.Data.Models;
 using EducationalWebService.Logic.DTO.Game;
 using EducationalWebService.Logic.DTO.Jeopardy;
-using EducationalWebService.Logic.DTO.MappersToDTO;
+using EducationalWebService.Logic.DTO.Mappers;
 using EducationalWebService.Logic.Repository.IRepository;
 using Microsoft.EntityFrameworkCore;
 
@@ -16,7 +16,7 @@ public class GameRepository : IGameRepository
         _db = db;
     }
 
-    public async Task<IEnumerable<GameDTO>?> GetAllByUserIDAsync(Guid userID)
+    public async Task<IEnumerable<GameDTO>> GetAllByUserIDAsync(Guid userID)
     {
         var result = await _db.JeopardyGame
             .Where(game => game.UserID == userID)
@@ -37,17 +37,15 @@ public class GameRepository : IGameRepository
         return GameMapper.ToDTO(result);
     }
 
-    public async Task<bool> CreateAsync(Guid userID, GameRequest request)
+    public async Task<GameDTO> CreateAsync(Guid userID, GameRequest request)
     {
-        await _db.JeopardyGame.AddAsync(new JeopardyGame
-        {
-            UserID = userID,
-            Name = request.Name,
-        });
+        var modelObject = GameMapper.ToModelObject(userID, request);
+
+        await _db.JeopardyGame.AddAsync(modelObject);
 
         await _db.SaveChangesAsync();
 
-        return true;
+        return GameMapper.ToDTO(modelObject);
     }
 
     public async Task<bool> UpdateAsync(Guid gameID, GameRequest request)
