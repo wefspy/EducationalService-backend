@@ -1,12 +1,10 @@
-﻿using System.ComponentModel.DataAnnotations;
+﻿using EducationalWebService.Logic.DTO.Game;
+using System.ComponentModel.DataAnnotations;
 
 namespace EducationalWebService.Logic.DTO.Jeopardy;
 
-public class GameDTO
+public class GameDTO : GameRequest
 {
     [Required]
     public Guid GameID { get; set; }
-
-    [Required]
-    public string Name { get; set; } = null!;
 }

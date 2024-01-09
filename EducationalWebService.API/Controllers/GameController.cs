@@ -1,4 +1,5 @@
-﻿using EducationalWebService.Logic.DTO.Jeopardy;
+﻿using EducationalWebService.Logic.DTO.Game;
+using EducationalWebService.Logic.DTO.Jeopardy;
 using EducationalWebService.Logic.Repository.IRepository;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
@@ -18,7 +19,7 @@ public class GameController : ControllerBase
     }
 
     [HttpGet]
-    public async Task<ActionResult<IEnumerable<GameDTO>>> GetAllByUserID([FromRoute]Guid userID)
+    public async Task<ActionResult<IEnumerable<GameDTO>>> GetAllByUserID([FromRoute] Guid userID)
     {
         var result = await _gameRepository.GetAllByUserIDAsync(userID);
 
@@ -40,17 +41,17 @@ public class GameController : ControllerBase
     }
 
     [HttpPost]
-    public async Task<ActionResult> Create([FromRoute]Guid userID, string gameName)
+    public async Task<ActionResult> Create([FromRoute] Guid userID, GameRequest request)
     {
-        await _gameRepository.CreateAsync(userID, gameName);
+        await _gameRepository.CreateAsync(userID, request);
 
         return Ok();
     }
 
     [HttpPut("{gameID:Guid}")]
-    public async Task<ActionResult> Update([FromRoute]Guid gameID, string gameName)
+    public async Task<ActionResult> Update([FromRoute] Guid gameID, GameRequest request)
     {
-        var isOk = await _gameRepository.UpdateAsync(gameID, gameName);
+        var isOk = await _gameRepository.UpdateAsync(gameID, request);
 
         if (isOk)
             return Ok();

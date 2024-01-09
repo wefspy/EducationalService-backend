@@ -1,5 +1,6 @@
 ﻿using EducationalWebService.Data.Context;
 using EducationalWebService.Data.Models;
+using EducationalWebService.Logic.DTO.Game;
 using EducationalWebService.Logic.DTO.Jeopardy;
 using EducationalWebService.Logic.DTO.MappersToDTO;
 using EducationalWebService.Logic.Repository.IRepository;
@@ -36,12 +37,12 @@ public class GameRepository : IGameRepository
         return GameMapper.ToDTO(result);
     }
 
-    public async Task<bool> CreateAsync(Guid userID, string gameName)
+    public async Task<bool> CreateAsync(Guid userID, GameRequest request)
     {
         await _db.JeopardyGame.AddAsync(new JeopardyGame
         {
             UserID = userID,
-            Name = gameName,
+            Name = request.Name,
         });
 
         await _db.SaveChangesAsync();
@@ -49,13 +50,13 @@ public class GameRepository : IGameRepository
         return true;
     }
 
-    public async Task<bool> UpdateAsync(Guid gameID, string gameName)
+    public async Task<bool> UpdateAsync(Guid gameID, GameRequest request)
     {
         var game = await _db.JeopardyGame.FindAsync(gameID);
 
         if (game == null) return false;
 
-        game.Name = gameName;
+        game.Name = request.Name;
 
         await _db.SaveChangesAsync();
 
