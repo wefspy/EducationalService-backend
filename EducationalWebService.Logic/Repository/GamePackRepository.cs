@@ -30,12 +30,21 @@ public class GamePackRepository : IGamePackRepository
 
         var topicPacks = new List<TopicPackDTO>();
 
-        topics.Select(async topic =>
+        //topics.Select(async topic =>
+        //    topicPacks.Add(new TopicPackDTO()
+        //    {
+        //        Topic = topic,
+        //        QuestionPack = await _questionRepository.GetAllByTopicIDAsync(topic.TopicID)
+        //    }));
+
+        foreach(var topic in topics)
+        {
             topicPacks.Add(new TopicPackDTO()
             {
                 Topic = topic,
                 QuestionPack = await _questionRepository.GetAllByTopicIDAsync(topic.TopicID)
-            }));
+            });
+        }
 
         return new GamePackDTO() { Game = game, TopicPacks = topicPacks };
     }
