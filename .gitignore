@@ -3,6 +3,9 @@
 
 # Visual Studio
 .vs
+EducationalWebService.API.csproj.user
+EducationalWebService.Logic.csproj.user
+EducationalWebService.Data.csproj.user
 
 # building
 bin/
