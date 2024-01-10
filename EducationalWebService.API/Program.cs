@@ -25,6 +25,8 @@ builder.Services
     {
         options.Password.RequireNonAlphanumeric = false;
         options.Password.RequiredLength = 8;
+
+        options.Lockout.MaxFailedAccessAttempts = 5;
     })
     .AddEntityFrameworkStores<EducationalWebServiceContext>()
     .AddDefaultTokenProviders();

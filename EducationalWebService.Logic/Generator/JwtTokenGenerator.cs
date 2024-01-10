@@ -1,6 +1,5 @@
 ﻿using EducationalWebService.Data.Models;
 using EducationalWebService.Logic.Generator.IGenerator;
-using Microsoft.AspNetCore.Identity;
 using System.Security.Claims;
 using Microsoft.IdentityModel.Tokens;
 using System.IdentityModel.Tokens.Jwt;

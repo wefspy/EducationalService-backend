@@ -1,7 +1,6 @@
 ﻿using EducationalWebService.Logic.DTO.GamePack;
 using EducationalWebService.Logic.DTO.Question;
 using EducationalWebService.Logic.Repository.IRepository;
-using System.Runtime.CompilerServices;
 
 namespace EducationalWebService.Logic.Repository;
 

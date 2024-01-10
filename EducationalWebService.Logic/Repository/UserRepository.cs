@@ -1,9 +1,9 @@
-﻿using Microsoft.AspNetCore.Identity;
-using EducationalWebService.Data.Models;
-using EducationalWebService.Logic.DTO.User;
+﻿using EducationalWebService.Logic.DTO.User;
 using EducationalWebService.Logic.Repository.IRepository;
-using EducationalWebService.Logic.Generator.IGenerator;
 using EducationalWebService.Data.Context;
+using EducationalWebService.Data.Models;
+using EducationalWebService.Logic.Generator.IGenerator;
+using Microsoft.AspNetCore.Identity;
 
 namespace EducationalWebService.Logic.Repository;
 
@@ -11,28 +11,25 @@ public class UserRepository : IUserRepository
 {
     private readonly EducationalWebServiceContext _db;
     private readonly UserManager<User> _userManager;
-    RoleManager<Role> _roleManager;
     private readonly IJwtTokenGenerator _jwtTokenGenerator;
     
-
-    public UserRepository(EducationalWebServiceContext db, UserManager<User> userManager, RoleManager<Role> roleManager,
+    public UserRepository(EducationalWebServiceContext db, UserManager<User> userManager,
         IJwtTokenGenerator jwtTokenGenerator)
     {
         _db = db;
         _userManager = userManager;
-        _roleManager = roleManager;
         _jwtTokenGenerator = jwtTokenGenerator;
-
     }
 
-    public async Task<UserRegistrationResponse?> RegisterAsync(UserRegistrationRequest request)
+    public async Task<UserResponse> RegisterAsync(UserRegistrationRequest request)
     {
-        // TODO: Return an error message
+        // TODO Attach roles to created users
 
-        var user = _db.User.FirstOrDefault(u => u.Name == request.Name); // Not optimized
+        var user = _db.User.FirstOrDefault(u => u.Name == request.Name);
 
-        if (user != null) // Name already exists
-            return null;
+        if (user != null)
+            return new UserResponse(Guid.Empty, "", new List<IdentityError>() { new IdentityError() 
+                { Code = "Unprocessable Entity", Description = "This login is already in use" } });
 
         user = new User
         {
@@ -44,35 +41,15 @@ public class UserRepository : IUserRepository
         var result = await _userManager.CreateAsync(user, request.Password);
 
         if (!result.Succeeded)
-            return null;
-
-        // Attach roles to created users
-        //
-        //try
-        //{
-        //    await _userManager.AddToRoleAsync(user, Role.User);
-        //}
-        //catch (Exception ex)
-        //{
-        //    await _roleManager.CreateAsync();
-        //}
-
+            return new UserResponse(Guid.Empty, "", result.Errors);
 
         var token = await _jwtTokenGenerator.GenerateUserJwtTokenAsync(user);
 
-        var response = new UserRegistrationResponse(user.Id, token);
-   
-        return response;
+        return new UserResponse(user.Id, token, new List<IdentityError>());
     }
 
-    public async Task<UserSignInResponse?> SignInAsync(UserSignInRequest request)
+    public Task<UserResponse> SignInAsync(UserSignInRequest request)
     {
         throw new NotImplementedException();
-
-        //var user = _db.Users.FirstOrDefault(u => u.Name == request.Name);
-
-        //if (user == null) // User does not exist
-        //    return null;
-
     }
 }

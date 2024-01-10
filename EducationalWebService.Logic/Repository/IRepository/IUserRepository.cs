@@ -4,7 +4,7 @@ namespace EducationalWebService.Logic.Repository.IRepository;
 
 public interface IUserRepository
 {
-    public Task<UserRegistrationResponse?> RegisterAsync(UserRegistrationRequest request);
+    public Task<UserResponse> RegisterAsync(UserRegistrationRequest request);
 
-    public Task<UserSignInResponse?> SignInAsync(UserSignInRequest request);
+    public Task<UserResponse> SignInAsync(UserSignInRequest request);
 }
