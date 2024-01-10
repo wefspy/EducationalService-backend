@@ -1,5 +1,6 @@
 ﻿using EducationalWebService.Logic.DTO.GamePack;
 using EducationalWebService.Logic.DTO.Jeopardy;
+using EducationalWebService.Logic.DTO.Mappers;
 using EducationalWebService.Logic.DTO.Question;
 using EducationalWebService.Logic.Repository.IRepository;
 
@@ -63,10 +64,15 @@ public class GamePackRepository : IGamePackRepository
         if (game == null) 
             return null;
 
+        await _gameRepository.UpdateAsync(gameID, request.Game);
+
         var success = await _gameRepository.ClearAsync(gameID);
 
         if (success)
-            return await FillGameContent(game, request);
+        {
+            var gameDTO = GameMapper.RequestToDTO(gameID, request.Game);
+            return await FillGameContent(gameDTO, request);
+        }
         
         return null;
     }
@@ -88,8 +94,11 @@ public class GamePackRepository : IGamePackRepository
 
             var topic = await _topicRepository.CreateAsync(game.GameID, topicPack.Topic);
 
-            topicPack.QuestionPack.Select(async question =>
-                questionPack.Add(await _questionRepository.CreateAsync(topic.TopicID, question)));
+            //topicPack.QuestionPack.Select(async question =>
+            //    questionPack.Add(await _questionRepository.CreateAsync(topic.TopicID, question)));
+
+            foreach (var question in topicPack.QuestionPack)
+                questionPack.Add(await _questionRepository.CreateAsync(topic.TopicID, question));
 
             topicPacks.Add(new TopicPackDTO() { Topic = topic, QuestionPack = questionPack });
         }
