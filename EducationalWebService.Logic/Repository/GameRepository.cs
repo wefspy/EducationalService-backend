@@ -20,7 +20,7 @@ public class GameRepository : IGameRepository
     {
         var result = await _db.JeopardyGame
             .Where(game => game.UserID == userID)
-            .Select(game => GameMapper.ToDTO(game))
+            .Select(game => GameMapper.ModelObjectToDTO(game))
             .ToListAsync();
 
         //if (result.Count == 0) return null;
@@ -34,18 +34,18 @@ public class GameRepository : IGameRepository
 
         if (result == null) return null;
 
-        return GameMapper.ToDTO(result);
+        return GameMapper.ModelObjectToDTO(result);
     }
 
     public async Task<GameDTO> CreateAsync(Guid userID, GameRequest request)
     {
-        var modelObject = GameMapper.ToModelObject(userID, request);
+        var modelObject = GameMapper.RequestToModelObject(userID, request);
 
         await _db.JeopardyGame.AddAsync(modelObject);
 
         await _db.SaveChangesAsync();
 
-        return GameMapper.ToDTO(modelObject);
+        return GameMapper.ModelObjectToDTO(modelObject);
     }
 
     public async Task<bool> UpdateAsync(Guid gameID, GameRequest request)

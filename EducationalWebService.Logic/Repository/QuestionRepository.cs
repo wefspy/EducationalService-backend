@@ -20,7 +20,7 @@ public class QuestionRepository : IQuestionRepository
     {
         var result = await _db.JeopardyQuestion
             .Where(question => question.TopicID == topicID)
-            .Select(question => QuestionMapper.ToDTO(question))
+            .Select(question => QuestionMapper.ModelObjectToDTO(question))
             .ToListAsync();
 
         return result;
@@ -32,19 +32,19 @@ public class QuestionRepository : IQuestionRepository
 
         if (result == null) return null;
 
-        return QuestionMapper.ToDTO(result);
+        return QuestionMapper.ModelObjectToDTO(result);
     }
 
 
     public async Task<QuestionDTO> CreateAsync(Guid topicID, QuestionRequest request)
     {
-        var modelObject = QuestionMapper.ToModelObject(topicID, request);
+        var modelObject = QuestionMapper.RequestToModelObject(topicID, request);
 
         await _db.JeopardyQuestion.AddAsync(modelObject);
 
         await _db.SaveChangesAsync();
 
-        return QuestionMapper.ToDTO(modelObject);
+        return QuestionMapper.ModelObjectToDTO(modelObject);
     }
 
     public async Task<bool> UpdateAsync(Guid questionID, QuestionRequest request)

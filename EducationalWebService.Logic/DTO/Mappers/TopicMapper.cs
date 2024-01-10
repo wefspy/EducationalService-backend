@@ -9,9 +9,19 @@ public static class TopicMapper
     {
         return new TopicDTO
         {
-            TopicID = topic.TopicID!,
-            Title = topic.Title!,
-            Round = topic.Round!,
+            TopicID = topic.TopicID,
+            Title = topic.Title,
+            Round = topic.Round,
+        };
+    }
+
+    public static TopicDTO RequestToDTO(Guid topicID, TopicRequest request)
+    {
+        return new TopicDTO
+        {
+            TopicID = topicID,
+            Title = request.Title,
+            Round = request.Round,
         };
     }
 

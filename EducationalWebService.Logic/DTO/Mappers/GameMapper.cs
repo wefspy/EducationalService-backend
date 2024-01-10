@@ -6,16 +6,25 @@ namespace EducationalWebService.Logic.DTO.Mappers;
 
 public static class GameMapper
 {
-    public static GameDTO ToDTO(JeopardyGame game)
+    public static GameDTO ModelObjectToDTO(JeopardyGame game)
     {
         return new GameDTO
         {
-            GameID = game.GameID!,
-            Name = game.Name!,
+            GameID = game.GameID,
+            Name = game.Name,
         };
     }
 
-    public static JeopardyGame ToModelObject(Guid userID, GameRequest request)
+    public static GameDTO RequestToDTO(Guid gameID, GameRequest request)
+    {
+        return new GameDTO
+        {
+            GameID = gameID,
+            Name = request.Name,
+        };
+    }
+
+    public static JeopardyGame RequestToModelObject(Guid userID, GameRequest request)
     {
         return new JeopardyGame()
         {
