@@ -8,7 +8,7 @@ public interface IGamePackRepository
 
     public Task<GamePackDTO> CreateAsync(Guid userID, GamePackRequest request);
 
-    public Task<bool> UpdateAsync(Guid gameID, GamePackRequest request);
+    public Task<GamePackDTO?> UpdateAsync(Guid gameID, GamePackRequest request);
 
     public Task<bool> DeleteAsync(Guid gameID);
 }

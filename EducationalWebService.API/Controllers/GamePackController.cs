@@ -37,6 +37,17 @@ public class GamePackController : ControllerBase
         return Ok(result);
     }
 
+    [HttpPut("{gameID:Guid}")]
+    public async Task<ActionResult<GamePackDTO>> Update(Guid gameID, GamePackRequest request)
+    {
+        var result = await _gamePackRepository.UpdateAsync(gameID, request);
+
+        if (result == null)
+            return NotFound();
+
+        return Ok(result);
+    }
+
     [HttpDelete("{gameID:Guid}")]
     public async Task<ActionResult> Delete(Guid gameID)
     {

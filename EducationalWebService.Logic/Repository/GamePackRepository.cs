@@ -1,4 +1,5 @@
 ﻿using EducationalWebService.Logic.DTO.GamePack;
+using EducationalWebService.Logic.DTO.Jeopardy;
 using EducationalWebService.Logic.DTO.Question;
 using EducationalWebService.Logic.Repository.IRepository;
 
@@ -52,6 +53,33 @@ public class GamePackRepository : IGamePackRepository
     {
         var game = await _gameRepository.CreateAsync(userID, request.Game);
 
+        return await FillGameContent(game, request);
+    }
+
+    public async Task<GamePackDTO?> UpdateAsync(Guid gameID, GamePackRequest request)
+    {
+        var game = await _gameRepository.GetByIDAsync(gameID);
+
+        if (game == null) 
+            return null;
+
+        var success = await _gameRepository.ClearAsync(gameID);
+
+        if (success)
+            return await FillGameContent(game, request);
+        
+        return null;
+    }
+
+    public async Task<bool> DeleteAsync(Guid gameID)
+    {
+        await _gameRepository.DeleteAsync(gameID);
+
+        return true;
+    }  
+
+    private async Task<GamePackDTO> FillGameContent(GameDTO game, GamePackRequest request)
+    {
         var topicPacks = new List<TopicPackDTO>();
 
         foreach (var topicPack in request.TopicPacks)
@@ -68,21 +96,4 @@ public class GamePackRepository : IGamePackRepository
 
         return new GamePackDTO() { Game = game, TopicPacks = topicPacks };
     }
-
-    public async Task<bool> UpdateAsync(Guid gameID, GamePackRequest request)
-    {
-        //var game = await _gameRepository.GetByIDAsync(gameID);
-
-        //if (game == null) 
-        //    return false;
-        throw new NotImplementedException();
-        
-    }
-
-    public async Task<bool> DeleteAsync(Guid gameID)
-    {
-        await _gameRepository.DeleteAsync(gameID);
-
-        return true;
-    }   
 }
