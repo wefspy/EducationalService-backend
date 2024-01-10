@@ -62,6 +62,18 @@ public class TopicRepository : ITopicRepository
         return true;
     }
 
+    public async Task<bool> ClearAsync(Guid topicID)
+    {
+        var questionsToDelte = _db.JeopardyQuestion
+            .Where(question => question.TopicID == topicID);
+
+        _db.JeopardyQuestion.RemoveRange(questionsToDelte);
+
+        await _db.SaveChangesAsync();
+
+        return true;
+    }
+
     public async Task<bool> DeleteAsync(Guid topicID)
     {
         var topic = await _db.JeopardyTopic.FindAsync(topicID);

@@ -61,6 +61,18 @@ public class GameRepository : IGameRepository
         return true;
     }
 
+    public async Task<bool> ClearAsync(Guid gameID)
+    {
+        var topicsToDelte = _db.JeopardyTopic
+            .Where(topic => topic.GameID == gameID);
+
+        _db.JeopardyTopic.RemoveRange(topicsToDelte);
+
+        await _db.SaveChangesAsync();
+
+        return true;
+    }
+
     public async Task<bool> DeleteAsync(Guid gameID)
     {
         var game = await _db.JeopardyGame.FindAsync(gameID);

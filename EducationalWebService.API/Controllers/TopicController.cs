@@ -60,6 +60,17 @@ public class TopicController : ControllerBase
         return NotFound();
     }
 
+    [HttpPut("{topicID:Guid}/clear")]
+    public async Task<ActionResult> Clear(Guid topicID)
+    {
+        var isOk = await _topicRepository.ClearAsync(topicID);
+
+        if (isOk) 
+            return Ok();
+
+        return NotFound();
+    }
+
     [HttpDelete("{topicID:Guid}")]
     public async Task<ActionResult> Delete(Guid topicID)
     {

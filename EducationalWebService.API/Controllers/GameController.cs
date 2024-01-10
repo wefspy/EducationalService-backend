@@ -59,6 +59,17 @@ public class GameController : ControllerBase
         return NotFound();
     }
 
+    [HttpPut("{gameID:Guid}/clear")]
+    public async Task<ActionResult> Clear(Guid gameID)
+    {
+        var isOk = await _gameRepository.ClearAsync(gameID);
+
+        if (isOk)
+            return Ok();
+
+        return NotFound();
+    }
+
     [HttpDelete("{gameID:Guid}")]
     public async Task<ActionResult> Delete(Guid gameID)
     {

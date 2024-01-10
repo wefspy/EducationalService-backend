@@ -13,5 +13,7 @@ public interface IGameRepository
 
     public Task<bool> UpdateAsync(Guid gameID, GameRequest request);
 
+    public Task<bool> ClearAsync(Guid gameID);
+
     public Task<bool> DeleteAsync(Guid gameID);
 }

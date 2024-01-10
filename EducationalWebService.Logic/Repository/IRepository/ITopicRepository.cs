@@ -12,5 +12,7 @@ public interface ITopicRepository
 
     public Task<bool> UpdateAsync(Guid topicID, TopicRequest request);
 
+    public Task<bool> ClearAsync(Guid topicID);
+
     public Task<bool> DeleteAsync(Guid topicID);
 }
