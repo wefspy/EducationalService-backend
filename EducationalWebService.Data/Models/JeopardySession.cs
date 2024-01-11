@@ -6,17 +6,14 @@ namespace EducationalWebService.Data.Models;
 
 public class JeopardySession
 {
-    [Column("id_session")]
     [Key]
     [NotNull]
     public Guid SessionID { get; set; }
 
-    [Column("id_jeopardy")]
     [ForeignKey("Jeopardy")]
     [NotNull]
     public Guid JeopardyID { get; set; }
 
-    [Column("time")]
     [NotNull]
     public DateTime Time { get; set; }
 

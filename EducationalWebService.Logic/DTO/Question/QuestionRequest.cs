@@ -7,9 +7,9 @@ public class QuestionRequest
     [Required]
     public string Text { get; set; }
 
-    public string Image { get; set; }
+    public string? Image { get; set; }
 
-    public string Music { get; set; }
+    public string? Music { get; set; }
 
     [Required]
     public int Reward { get; set; }

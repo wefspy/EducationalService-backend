@@ -54,8 +54,8 @@ public class QuestionRepository : IQuestionRepository
         if (question == null) return false;
 
         question.Text = request.Text;
-        question.imagePath = request.Image;
-        question.musicPath = request.Music;
+        question.ImagePath = request.Image;
+        question.MusicPath = request.Music;
         question.Reward = request.Reward;
         question.Answer = request.Answer;
 

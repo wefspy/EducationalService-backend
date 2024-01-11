@@ -25,7 +25,7 @@ public class UserRepository : IUserRepository
     {
         // TODO Attach roles to created users
 
-        var user = _db.User.FirstOrDefault(u => u.Name == request.Name);
+        var user = _db.User.FirstOrDefault(u => u.UserName == request.Name);
 
         if (user != null)
             return new UserResponse(Guid.Empty, "", new List<IdentityError>() { new IdentityError() 
@@ -34,7 +34,6 @@ public class UserRepository : IUserRepository
         user = new User
         {
             UserName = request.Name,
-            Name = request.Name,
             Email = request.Email,
         };
 
