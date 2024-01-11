@@ -4,6 +4,7 @@ using EducationalWebService.Data.Context;
 using EducationalWebService.Data.Models;
 using EducationalWebService.Logic.Generator.IGenerator;
 using Microsoft.AspNetCore.Identity;
+using System.Text.RegularExpressions;
 
 namespace EducationalWebService.Logic.Repository;
 
@@ -24,12 +25,17 @@ public class UserRepository : IUserRepository
     public async Task<UserResponse> RegisterAsync(UserRegistrationRequest request)
     {
         // TODO Attach roles to created users
+        var isValidEmail = Regex.IsMatch(request.Email, @"^[^@\s]+@[^@\s]+\.[^@\s]+$");
+
+        if (!isValidEmail)
+            return new UserResponse(Guid.Empty, "", new List<IdentityError>() { new IdentityError()
+                { Code = "Unprocessable entity", Description = "Invalid email address" } });
 
         var user = _db.User.FirstOrDefault(u => u.UserName == request.Name);
 
         if (user != null)
             return new UserResponse(Guid.Empty, "", new List<IdentityError>() { new IdentityError() 
-                { Code = "Unprocessable Entity", Description = "This login is already in use" } });
+                { Code = "Conflict", Description = "This login is already in use" } });
 
         user = new User
         {
