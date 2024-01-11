@@ -16,19 +16,9 @@ public class AuthController : ControllerBase
 {
     private readonly IUserRepository _userRepository;
 
-    private readonly UserManager<User> _userManager;
-    private readonly SignInManager<User> _signInManager;
-    private readonly IJwtTokenGenerator _jwtTokenGenerator;
-
-
-    public AuthController(SignInManager<User> signInManager, UserManager<User> userManager, 
-        IUserRepository userRepository, IJwtTokenGenerator jwtTokenGenerator)
+    public AuthController(IUserRepository userRepository)
     {
         _userRepository = userRepository;
-
-        _userManager = userManager;
-        _signInManager = signInManager;
-        _jwtTokenGenerator = jwtTokenGenerator;
     }
 
     [HttpPost("register")]
@@ -45,20 +35,11 @@ public class AuthController : ControllerBase
     [HttpPost("signin")]
     public async Task<ActionResult<UserResponse>> SignIn(UserSignInRequest request)
     {
-        // TODO Transfer to UserRepository
+        var response = await _userRepository.SignInAsync(request);
 
-        var result = await _signInManager.PasswordSignInAsync(request.Name, request.Password, false, false);
+        if (response.id == Guid.Empty)
+            return BadRequest(response);
 
-        if (!result.Succeeded)
-            return Forbid();
-
-        var user = await _userManager.FindByNameAsync(request.Name);
-
-        if (user == null)
-            return Forbid();
-
-        var token = await _jwtTokenGenerator.GenerateUserJwtTokenAsync(user!);
-
-        return Ok(new UserResponse(user.Id, token, new List<IdentityError>()));
+        return Ok(response);
     }
 }

@@ -12,13 +12,15 @@ public class UserRepository : IUserRepository
 {
     private readonly EducationalWebServiceContext _db;
     private readonly UserManager<User> _userManager;
+    private readonly SignInManager<User> _signInManager;
     private readonly IJwtTokenGenerator _jwtTokenGenerator;
     
     public UserRepository(EducationalWebServiceContext db, UserManager<User> userManager,
-        IJwtTokenGenerator jwtTokenGenerator)
+        SignInManager<User> signInManager, IJwtTokenGenerator jwtTokenGenerator)
     {
         _db = db;
         _userManager = userManager;
+        _signInManager = signInManager;
         _jwtTokenGenerator = jwtTokenGenerator;
     }
 
@@ -53,8 +55,22 @@ public class UserRepository : IUserRepository
         return new UserResponse(user.Id, token, new List<IdentityError>());
     }
 
-    public Task<UserResponse> SignInAsync(UserSignInRequest request)
+    public async Task<UserResponse> SignInAsync(UserSignInRequest request)
     {
-        throw new NotImplementedException();
+        var user = await _userManager.FindByNameAsync(request.Name);
+
+        if (user == null)
+            return new UserResponse(Guid.Empty, "", new List<IdentityError>() { new IdentityError()
+                { Code = "Unprocessable entity", Description = "Invalid login" } });
+
+        var result = await _signInManager.PasswordSignInAsync(request.Name, request.Password, false, false);
+
+        if (!result.Succeeded)
+            return new UserResponse(Guid.Empty, "", new List<IdentityError>() { new IdentityError()
+                { Code = "Unprocessable entity", Description = "Invalid password" } });
+
+        var token = await _jwtTokenGenerator.GenerateUserJwtTokenAsync(user!);
+
+        return new UserResponse(user.Id, token, new List<IdentityError>());
     }
 }
