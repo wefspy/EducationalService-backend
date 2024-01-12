@@ -7,7 +7,7 @@ using Microsoft.AspNetCore.Mvc;
 namespace EducationalWebService.API.Controllers;
 
 [Authorize]
-[Route("api/{userID:Guid}/gamepack")]
+[Route("api/gamepack")]
 [ApiController]
 public class GamePackController : ControllerBase
 {
@@ -18,6 +18,7 @@ public class GamePackController : ControllerBase
         _gamePackRepository = gamePackRepository;
     }
 
+    [AllowAnonymous]
     [HttpGet("{gameID:Guid}")]
     public async Task<ActionResult<GamePackDTO>> GetByGameID(Guid gameID)
     {
@@ -29,8 +30,8 @@ public class GamePackController : ControllerBase
         return Ok(result);
     }
 
-    [HttpPost]
-    public async Task<ActionResult<GamePackDTO>> Create([FromRoute] Guid userID, GamePackRequest request)
+    [HttpPost("{userID:Guid}")]
+    public async Task<ActionResult<GamePackDTO>> Create(Guid userID, GamePackRequest request)
     {
         var result = await _gamePackRepository.CreateAsync(userID, request);
 

@@ -1,5 +1,6 @@
 ﻿using EducationalWebService.Data.Context;
 using EducationalWebService.Data.Models;
+using EducationalWebService.Logic.DTO.Game;
 using EducationalWebService.Logic.Generator.IGenerator;
 using EducationalWebService.Logic.Repository.IRepository;
 using System.Numerics;
@@ -28,13 +29,14 @@ public class SessionHubRepository : ISessionHubRepository
         return null;
     }
 
-    public string Create(Guid gameID, string userName)
+    public string Create(GameDTO gameDTO, string userName)
     {
         var sessionCode = _sessionCodeGenerator.GenerateSessionCode(8); // constant value password length        
 
         var hubSession = new HubSession()
         {
-            GameID = gameID,
+            GameID = gameDTO.GameID,
+            GameName = gameDTO.Name,
             UserName = userName,
             Players = new List<HubPlayer>(),
         };

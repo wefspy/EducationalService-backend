@@ -1,4 +1,5 @@
 ﻿using EducationalWebService.Data.Models;
+using EducationalWebService.Logic.DTO.Game;
 
 namespace EducationalWebService.Logic.Repository.IRepository;
 
@@ -8,7 +9,7 @@ public interface ISessionHubRepository
 
     public HubSession? Get(string sessionCode);
 
-    public string Create(Guid gameID, string userName);
+    public string Create(GameDTO gameDTO, string userName);
 
     public HubSession? AddPlayer(string sessionCode, HubPlayer player);
 

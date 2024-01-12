@@ -8,6 +8,9 @@ public class HubSession
     public Guid GameID { get; set; }
 
     [Required]
+    public string GameName { get; set; }
+
+    [Required]
     public string UserName { get; set; }
 
     [Required]
