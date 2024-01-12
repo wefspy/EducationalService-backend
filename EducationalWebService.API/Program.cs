@@ -7,17 +7,24 @@ using System.Text;
 using Microsoft.AspNetCore.Identity;
 using EducationalWebService.Data.Models;
 using EducationalWebService.Data.Context;
+using EducationalWebService.API.Hubs;
 
 
 var builder = WebApplication.CreateBuilder(args);
 var configuration = builder.Configuration;
 var connectionString = configuration.GetConnectionString("DefaultConnection");
 
-// Add services to the container.
+// Add Controllers.
 builder.Services.AddControllers();
 
-// Add Data Base
+// Add SignalR
+builder.Services.AddSignalR(options => 
+    options.ClientTimeoutInterval = TimeSpan.FromMinutes(60)); // Ñlose the inactive connection
+
+
+// Add Context
 builder.Services.AddDataBase(connectionString!);
+builder.Services.AddSignalRBase();
 
 // ConfigureIdentity for Logic Repositories
 builder.Services
@@ -112,5 +119,6 @@ app.UseAuthentication();
 app.UseAuthorization();
 
 app.MapControllers();
+app.MapHub<SessionHub>("hubs/sessionHub");
 
 app.Run();

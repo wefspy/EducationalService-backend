@@ -1,5 +1,4 @@
 ﻿using EducationalWebService.Logic.DTO.Game;
-using EducationalWebService.Logic.DTO.Jeopardy;
 using EducationalWebService.Logic.Repository.IRepository;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;

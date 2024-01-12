@@ -1,7 +1,5 @@
 ﻿using EducationalWebService.Data.Context;
-using EducationalWebService.Data.Models;
 using EducationalWebService.Logic.DTO.Game;
-using EducationalWebService.Logic.DTO.Jeopardy;
 using EducationalWebService.Logic.DTO.Mappers;
 using EducationalWebService.Logic.Repository.IRepository;
 using Microsoft.EntityFrameworkCore;

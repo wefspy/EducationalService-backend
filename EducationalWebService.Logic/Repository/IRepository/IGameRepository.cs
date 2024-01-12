@@ -1,5 +1,4 @@
 ﻿using EducationalWebService.Logic.DTO.Game;
-using EducationalWebService.Logic.DTO.Jeopardy;
 
 namespace EducationalWebService.Logic.Repository.IRepository;
 
