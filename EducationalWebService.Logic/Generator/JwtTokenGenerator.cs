@@ -18,7 +18,7 @@ public class JwtTokenGenerator : IJwtTokenGenerator
         _jwtOptions = jwtOptions.Value;
     }
 
-    public async Task<string> GenerateUserJwtTokenAsync(User user)
+    public string GenerateUserJwtToken(User user)
     {
         var tokenHandler = new JwtSecurityTokenHandler();
         var key = Encoding.ASCII.GetBytes(_jwtOptions.Secret);

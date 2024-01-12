@@ -19,6 +19,7 @@ public static class LogicImplementation
         services.AddTransient<IQuestionRepository, QuestionRepository>();
 
         services.AddTransient<IGamePackRepository, GamePackRepository>();
+        services.AddTransient<ISessionHubRepository, SessionHubRepository>();
 
         return services;
     }
@@ -26,6 +27,7 @@ public static class LogicImplementation
     public static IServiceCollection AddGenerators(this IServiceCollection services)
     {
         services.AddTransient<IJwtTokenGenerator, JwtTokenGenerator>();
+        services.AddTransient<ISessionCodeGenerator, SessionCodeGenerator>();
 
         return services;
     }

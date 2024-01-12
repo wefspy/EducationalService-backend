@@ -24,7 +24,6 @@ builder.Services.AddSignalR(options =>
 
 // Add Context
 builder.Services.AddDataBase(connectionString!);
-builder.Services.AddSignalRBase();
 
 // ConfigureIdentity for Logic Repositories
 builder.Services

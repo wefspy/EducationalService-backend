@@ -1,7 +1,6 @@
-﻿using EducationalWebService.Logic.DTO.Game;
-using System.ComponentModel.DataAnnotations;
+﻿using System.ComponentModel.DataAnnotations;
 
-namespace EducationalWebService.Logic.DTO.Jeopardy;
+namespace EducationalWebService.Logic.DTO.Game;
 
 public class GameDTO : GameRequest
 {

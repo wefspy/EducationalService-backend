@@ -1,6 +1,6 @@
 ﻿using EducationalWebService.Data.Models;
 using EducationalWebService.Logic.DTO.Game;
-using EducationalWebService.Logic.DTO.Jeopardy;
+using EducationalWebService.Logic.DTO.Game;
 
 namespace EducationalWebService.Logic.DTO.Mappers;
 

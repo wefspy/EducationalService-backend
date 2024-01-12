@@ -1,4 +1,4 @@
-﻿using EducationalWebService.Logic.DTO.Jeopardy;
+﻿using EducationalWebService.Logic.DTO.Game;
 using EducationalWebService.Logic.DTO.Question;
 using EducationalWebService.Logic.DTO.Topic;
 

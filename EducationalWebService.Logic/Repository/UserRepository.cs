@@ -50,7 +50,7 @@ public class UserRepository : IUserRepository
         if (!result.Succeeded)
             return new UserResponse(Guid.Empty, "", result.Errors);
 
-        var token = await _jwtTokenGenerator.GenerateUserJwtTokenAsync(user);
+        var token = _jwtTokenGenerator.GenerateUserJwtToken(user);
 
         return new UserResponse(user.Id, token, new List<IdentityError>());
     }
@@ -69,7 +69,7 @@ public class UserRepository : IUserRepository
             return new UserResponse(Guid.Empty, "", new List<IdentityError>() { new IdentityError()
                 { Code = "Unprocessable entity", Description = "Invalid password" } });
 
-        var token = await _jwtTokenGenerator.GenerateUserJwtTokenAsync(user!);
+        var token = _jwtTokenGenerator.GenerateUserJwtToken(user!);
 
         return new UserResponse(user.Id, token, new List<IdentityError>());
     }
