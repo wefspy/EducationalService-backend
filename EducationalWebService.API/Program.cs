@@ -8,11 +8,21 @@ using Microsoft.AspNetCore.Identity;
 using EducationalWebService.Data.Models;
 using EducationalWebService.Data.Context;
 using EducationalWebService.API.Hubs;
+using Microsoft.Extensions.Options;
 
 
 var builder = WebApplication.CreateBuilder(args);
 var configuration = builder.Configuration;
 var connectionString = configuration.GetConnectionString("DefaultConnection");
+
+// Add Cors
+builder.Services.AddCors(options =>
+{
+    options.AddPolicy("OpenPolicy", policy =>
+    {
+        policy.AllowAnyOrigin().AllowAnyHeader().AllowAnyMethod();
+    });
+});
 
 // Add Controllers.
 builder.Services.AddControllers();
@@ -113,6 +123,9 @@ if (app.Environment.IsDevelopment())
 }
 
 app.UseHttpsRedirection();
+
+// Use Cors
+app.UseCors("OpenPolicy");
 
 app.UseAuthentication();
 app.UseAuthorization();
